@@ -85,14 +85,27 @@
         return [fmt stringFromDate:createdDate];
     }
 }
-
--(NSString *)source
+-(void)setSource:(NSString *)source
 {
-    int startLoc=(int)[_source rangeOfString:@">"].location+1;
-    int length=(int)[_source rangeOfString:@"</"].location-startLoc;
+    int jianLoc=(int)[source rangeOfString:@">"].location;
+    if (jianLoc==(int)NSNotFound) {
+        _source=[source copy];
+    }else{
+        int loc=jianLoc+1;
+        int length=(int)[source rangeOfString:@"</"].location-loc;
+        source=[source substringWithRange:NSMakeRange(loc, length)];
+        //        NSLog(@"=======%@",source);
+        _source=[NSString stringWithFormat:@"来自%@",source];
+    }
     
-    return [NSString stringWithFormat:@"来自%@",[_source substringWithRange:NSMakeRange(startLoc, length)]];
 }
+//-(NSString *)source
+//{
+//    int startLoc=(int)[_source rangeOfString:@">"].location+1;
+//    int length=(int)[_source rangeOfString:@"</"].location-startLoc;
+//    
+//    return [NSString stringWithFormat:@"来自%@",[_source substringWithRange:NSMakeRange(startLoc, length)]];
+//}
 
 //-(void)setSource:(NSString *)source
 //{
